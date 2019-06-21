@@ -7,6 +7,8 @@ import './Guessing_word_exp.css';
 
 const Guessing_word = props => {
 
+
+    // declare variables and hooks
     const num = 10;
     const [mystringlist, setMystringlist] = React.useState({
         stringlist: [],
@@ -24,6 +26,7 @@ const Guessing_word = props => {
         isdisplay: false,
       });
 
+    // basically convert an array to comma sperated string
     function toString(words_array){
         var result = '';
         for(let i = 0;  i < num-1; i++){
@@ -37,6 +40,7 @@ const Guessing_word = props => {
         }));
     }
 
+    // turn on and off on different blocks of components and set value from hooks
     function guessstring(){
         setdisplayclock(oldValues => ({
             ...oldValues,
@@ -52,6 +56,7 @@ const Guessing_word = props => {
         })); 
     }
 
+    // start the program, strings will be generated and clock will start as well
     function handleClick() {
         if(displayclock.isdisplay == false){
 
@@ -62,7 +67,7 @@ const Guessing_word = props => {
             setdisplayclock(oldValues => ({
                 ...oldValues,
                 isdisplay: true,
-            }));  
+            }));
             var new_string = Randomwords(10);
             setMystringlist(oldValues => ({
                 ...oldValues,
