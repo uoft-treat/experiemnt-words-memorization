@@ -34,8 +34,6 @@ const String_input = props => {
 
   // check if the word is in the random words generated, update hooks value 
   function checkWords(input_array, actual_string, num){
-    console.log(actual_string);
-    console.log(input_array);
     for (var i = 0; i < num; i++){
         if (actual_string.indexOf(input_array[i]) > -1 && !correctguess.includes(input_array[i])){
             var temp = correctguess;

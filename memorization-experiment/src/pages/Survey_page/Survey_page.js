@@ -2,6 +2,8 @@ import React from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import {Link} from 'react-router-dom';
+import {TreatService} from "../../services/impl/TreatService";
+import {requireTreatSession} from "../hocs/requireTreatSession";
 import './Survey_page.css';
 
 const Survey_page = props => {
@@ -15,9 +17,7 @@ const Survey_page = props => {
 
   // handle each string from user input 
   function handleClick() {
-    console.log(gender);
-    console.log(year);
-    console.log(program);
+    TreatService.getInstance().setSurveyData(gender, year, program);
   }
 
 
