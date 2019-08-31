@@ -14,6 +14,11 @@ const String_input = props => {
   const [guessedstring, setGuessedstring] = React.useState('');
   const [mycount,setMycount] = React.useState(0);
 
+
+  function lowercase(s){
+    return s.toLowerCase().trim();
+  }
+
   // update correctly guessed strings
   function convertList(){
     var temp = "";
@@ -52,11 +57,11 @@ const String_input = props => {
              <div className = "section">
                 <TextField
                 id="standard-password-input"
-                label="Enter comma sperated words"
+                label="Enter one word then confirm"
                 margin="normal"
                 fullWidth
                 value = {guessedstring}
-                onChange = {e => setGuessedstring(e.target.value)}
+                onChange = {e => setGuessedstring(lowercase(e.target.value))}
                 />
             </div> 
             <div className = "section">
