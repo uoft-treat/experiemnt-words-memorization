@@ -1,28 +1,37 @@
 import {IDataSubmissionService} from "../IDataSubmissionService";
-import axios from 'axios';
+import request                  from "graphql-request";
+import {TreatService}           from "./TreatService";
 
-const SUBMISSION_URL = "https://data.treatproject.tk/api/data";
+const SUBMISSION_URL = "https://graphql.treatproject.tk/graphql";
+
 
 let instance;
 
 export class DataSubmissionService extends IDataSubmissionService {
 
     async submitData(gender, year, program, rate1, rate2) {
-
-        await axios.post(
-            SUBMISSION_URL,
-            {
-                name: "Word Memorization Experiment",
-                data: JSON.stringify({gender, year, program, rate1, rate2})
-            }
-        );
-        console.log("Data saved!...");
-    }
-
-    static getInstance() {
-        if(!instance) {
-            instance = new DataSubmissionService();
+        await request(SUBMISSION_URL, `
+        mutation($experimentSessionId: String!, $jsonData: String!) {
+          createExperimentSessionData(data: {
+            experimentSessionId: $experimentSessionId,
+            jsonData: $jsonData
+          }) {
+            createdAt
+          }
         }
-        return instance;
+    `, {
+        experimentSessionId: TreatService.getInstance().getSessionToken(),
+        jsonData: JSON.stringify({gender, year, program, rate1, rate2})
+    });
+
+    console.log("Data saved!...");
+}
+
+static getInstance() {
+    if (!instance) {
+        instance = new DataSubmissionService();
     }
+    return instance;
+}
+
 }

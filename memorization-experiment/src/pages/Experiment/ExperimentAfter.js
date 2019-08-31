@@ -14,10 +14,4 @@ const ExperimentAfter = props => {
   return content;
 };
 
-
-
-
-
-
-
 export default ExperimentAfter;

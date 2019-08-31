@@ -1,9 +1,9 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import {Link} from 'react-router-dom';
 import {TreatService} from "../../services/impl/TreatService";
-import {requireTreatSession} from "../hocs/requireTreatSession";
+import * as queryString from "query-string";
 import './Survey_page.css';
 
 const Survey_page = props => {
@@ -12,7 +12,10 @@ const Survey_page = props => {
   const [gender, setGender] = React.useState("");
   const [year, setYear] = React.useState("");
   const [program, setProgram] = React.useState("");
-
+  const [error, setError] = React.useState("");
+  const ERROR_TEXT = `
+  Invalid link, you must provide a TREAT experiment session to use this application.
+  `;
 
 
   // handle each string from user input 
@@ -20,10 +23,22 @@ const Survey_page = props => {
     TreatService.getInstance().setSurveyData(gender, year, program);
   }
 
+  useEffect(() => {
+    const queryVars = queryString.parse(props.location.search);
+    if (!queryVars.sessionId) {
+        setError({error: true});
+    } else {
+        TreatService.getInstance().setSessionToken(queryVars.sessionId);
+    }
+  }, [])
 
   let content = (
     <React.Fragment>
-        <div className = "main">
+        {error ? (
+            <p>{ERROR_TEXT}</p>
+                ) : (
+                <div className = "main">
+
             <h1>Please fill the survey</h1>
                 <div className = "string_input_field">
                     <div className = "section">
@@ -61,6 +76,7 @@ const Survey_page = props => {
                     </div>
                 </div>
         </div>
+        )}
     </React.Fragment>
   );
 
